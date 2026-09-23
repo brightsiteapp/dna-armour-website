@@ -1,0 +1,30 @@
+import { chromium } from '/Users/tomconroy/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import assert from 'node:assert/strict';
+const browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true,args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+const page=await browser.newPage({viewport:{width:390,height:844}});
+const failures=[];page.on('pageerror',e=>failures.push(e.message));page.on('response',r=>{if(r.status()>=400)failures.push(r.url());});
+await page.goto('http://127.0.0.1:4173',{waitUntil:'networkidle'});
+await page.waitForFunction(()=>window.bottleViewer);
+const angles=[];
+for(const p of [0,.35,.5,.65,1,1.35,1.5,1.65,2]){
+ await page.evaluate(p=>{const s=document.querySelector('.story'),h=document.querySelector('.product-stage').offsetHeight;scrollTo({top:(s.offsetHeight-h)*p/2,behavior:'instant'});},p);
+ await page.waitForFunction(p=>Math.abs(Number(document.querySelector('.product-stage').dataset.progress)-p)<.005,p);
+ angles.push(await page.evaluate(()=>window.bottleViewer.info().rotation));
+}
+console.log(JSON.stringify({sampledAngles:angles}));
+for(let i=1;i<angles.length;i++)assert.ok(angles[i]>angles[i-1], 'Continuous forward rotation through intermediate angles');
+await page.locator('[data-view="0"]').click();
+await page.waitForFunction(()=>Number(document.querySelector('.product-stage').dataset.progress)<.01);
+await page.locator('[data-view="2"]').focus();
+await page.keyboard.press('Enter');
+await page.waitForFunction(()=>document.querySelector('[data-view="2"]').getAttribute('aria-pressed')==='true');
+await page.emulateMedia({reducedMotion:'reduce'});
+await page.waitForTimeout(150);
+assert.equal(await page.evaluate(()=>window.bottleViewer.info().rotation),angles[0]);
+const links=await page.locator('a[href="assets/dna-label.pdf"]').count();assert.equal(links,1);
+await page.evaluate(()=>scrollTo({top:document.body.scrollHeight,behavior:'instant'}));
+await page.waitForTimeout(300);
+assert.ok(await page.locator('.formula-product img').evaluate(im=>im.complete&&im.naturalWidth>0));
+assert.deepEqual(failures,[]);
+console.log(JSON.stringify({continuousAngles:angles,keyboard:true,reducedMotion:true,newLabelLink:true,assets:true,errors:failures}));
+await browser.close();
