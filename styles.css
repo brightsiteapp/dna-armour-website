@@ -92,3 +92,13 @@ body:not(.science-page) .science-section .science-card:nth-child(n+4){display:no
 .site-header[data-nav-open] .nav-toggle span:nth-child(2){opacity:0;transform:scaleX(0)}
 .site-header[data-nav-open] .nav-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 @media(max-width:760px){.nav-toggle{display:flex}.site-header[data-nav-open]{background:white!important;box-shadow:none!important;backdrop-filter:none!important}nav:not(.legal-links){position:fixed;inset:0;background:white;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:0;padding:90px 28px 48px;font-size:16px;z-index:28;opacity:0;visibility:hidden;transform:translateY(-10px);transition:opacity .28s,visibility .28s,transform .32s var(--ease);pointer-events:none}.site-header[data-nav-open] nav:not(.legal-links){opacity:1;visibility:visible;transform:none;pointer-events:auto}nav:not(.legal-links)>a:not(.nav-cta){display:flex!important;border-bottom:1px solid #e8ecee;padding:22px 0;font-size:22px;font-weight:650;width:100%;letter-spacing:-.03em}.nav-cta{margin-top:32px!important;font-size:15px!important;padding:14px 22px!important;width:fit-content!important}.shop-product-cutout{display:none}}
+@media(max-width:760px){
+  /* Remove expensive GPU compositing layer from each capsule */
+  .hero-capsules i{backdrop-filter:none!important}
+  /* Bottom-right pill: hug the right edge so it's half outside bottle width */
+  .hero-capsules i:nth-child(3){right:3%;bottom:46%;opacity:.52;filter:blur(.5px)}
+  /* New faded pill: top-right — use the previously hidden child 2 */
+  .hero-capsules i:nth-child(2){display:block!important;left:auto!important;right:5%;top:9%;bottom:auto;scale:.5;filter:blur(2.6px)!important;opacity:.2!important;animation-delay:-1.8s}
+  /* Disable JS-driven capsule shift on mobile — unnecessary work each frame */
+  .hero-capsules i{transform:rotate(var(--r))!important}
+}

@@ -18,6 +18,7 @@ let viewer;
 let progress = 0;
 let raf;
 let lastScrollY = scrollY;
+let rowHeight = 60;
 let marqueeReset;
 const marqueeTrack = document.querySelector('.marquee-track');
 const marqueeHalfGap = marqueeTrack ? (parseFloat(getComputedStyle(marqueeTrack).gap) || 30) / 2 : 15;
@@ -38,8 +39,7 @@ function update() {
   const carouselVisibility = clamp(progress / .09, 0, 1);
   stage.style.setProperty('--intro-visibility', String(introVisibility));
   stage.style.setProperty('--carousel-visibility', String(carouselVisibility));
-  stage.style.setProperty('--capsule-shift', `${progress * 18}px`);
-  const rowHeight = ingredientRows[0].getBoundingClientRect().height;
+  if (innerWidth > 760) stage.style.setProperty('--capsule-shift', `${progress * 18}px`);
   reel.style.transform = reducedMotion.matches ? 'none' : `translateY(${(1 - ingredientPosition) * rowHeight}px)`;
   ingredientRows.forEach((row, i) => {
     const distance = Math.abs(i - ingredientPosition);
@@ -78,7 +78,10 @@ addEventListener('scroll', () => {
   }
   lastScrollY = scrollY;
 }, { passive: true });
-addEventListener('resize', requestUpdate);
+addEventListener('resize', () => {
+  rowHeight = ingredientRows[0]?.getBoundingClientRect().height || rowHeight;
+  requestUpdate();
+});
 reducedMotion.addEventListener('change', requestUpdate);
 controls.forEach((button) => button.addEventListener('click', () => {
   const fraction = Number(button.dataset.view) / 2;
@@ -97,6 +100,7 @@ const revealObserver = new IntersectionObserver((entries) => {
 document.documentElement.classList.add('js-ready');
 document.querySelectorAll('.reveal').forEach((node) => revealObserver.observe(node));
 document.querySelector('[data-year]').textContent = new Date().getFullYear();
+rowHeight = ingredientRows[0]?.getBoundingClientRect().height || rowHeight;
 update();
 try {
   viewer = await createBottleViewer(document.querySelector('#bottle-canvas'));
