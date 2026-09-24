@@ -19,6 +19,20 @@ let progress = 0;
 let raf;
 let lastScrollY = scrollY;
 let rowHeight = 60;
+let storyAbsTop = 0;
+let storyOffsetHeight = 1;
+let storyScrollRange = 1;
+let formulaAbsTop = 0;
+let formulaAbsHeight = 0;
+function cachePositions() {
+  storyAbsTop = story.getBoundingClientRect().top + scrollY;
+  storyOffsetHeight = story.offsetHeight;
+  storyScrollRange = storyOffsetHeight - stage.offsetHeight;
+  if (formulaShowcase) {
+    formulaAbsTop = formulaShowcase.getBoundingClientRect().top + scrollY;
+    formulaAbsHeight = formulaShowcase.offsetHeight;
+  }
+}
 let marqueeReset;
 const marqueeTrack = document.querySelector('.marquee-track');
 const marqueeHalfGap = marqueeTrack ? (parseFloat(getComputedStyle(marqueeTrack).gap) || 30) / 2 : 15;
@@ -29,8 +43,8 @@ const marqueeAnimation = marqueeTrack && !reducedMotion.matches ? marqueeTrack.a
 
 function update() {
   raf = null;
-  const rect = story.getBoundingClientRect();
-  progress = clamp(-rect.top / (story.offsetHeight - stage.offsetHeight) * 2, 0, 2);
+  const storyRelTop = storyAbsTop - scrollY;
+  progress = clamp(-storyRelTop / storyScrollRange * 2, 0, 2);
   // The opening title hands directly to the reel on the first movement.
   const active = progress < 1.9 ? 0 : 1;
   const controlActive = progress < .025 ? 0 : progress < 1.9 ? 1 : 2;
@@ -60,10 +74,10 @@ function update() {
   stage.dataset.progress = progress.toFixed(3);
   viewer?.setProgress(progress, reducedMotion.matches);
   header.classList.toggle('is-scrolled', scrollY > 24);
-  header.classList.toggle('on-story', rect.bottom > 88);
+  header.classList.toggle('on-story', storyRelTop + storyOffsetHeight > 88);
   if (formulaShowcase) {
-    const formulaRect = formulaShowcase.getBoundingClientRect();
-    const formulaProgress = clamp((innerHeight - formulaRect.top) / (innerHeight + formulaRect.height * .55), 0, 1);
+    const formulaRelTop = formulaAbsTop - scrollY;
+    const formulaProgress = clamp((innerHeight - formulaRelTop) / (innerHeight + formulaAbsHeight * .55), 0, 1);
     formulaShowcase.style.setProperty('--formula-scale', String(.72 + formulaProgress * .68));
   }
 }
@@ -80,6 +94,7 @@ addEventListener('scroll', () => {
 }, { passive: true });
 addEventListener('resize', () => {
   rowHeight = ingredientRows[0]?.getBoundingClientRect().height || rowHeight;
+  cachePositions();
   requestUpdate();
 });
 reducedMotion.addEventListener('change', requestUpdate);
@@ -101,9 +116,11 @@ document.documentElement.classList.add('js-ready');
 document.querySelectorAll('.reveal').forEach((node) => revealObserver.observe(node));
 document.querySelector('[data-year]').textContent = new Date().getFullYear();
 rowHeight = ingredientRows[0]?.getBoundingClientRect().height || rowHeight;
+cachePositions();
 update();
 try {
   viewer = await createBottleViewer(document.querySelector('#bottle-canvas'));
+  cachePositions();
   update();
   window.bottleViewer = viewer;
 } catch (error) {
