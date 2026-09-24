@@ -54,7 +54,7 @@ function update() {
   stage.style.setProperty('--intro-visibility', String(introVisibility));
   stage.style.setProperty('--carousel-visibility', String(carouselVisibility));
   if (innerWidth > 760) stage.style.setProperty('--capsule-shift', `${progress * 18}px`);
-  reel.style.transform = reducedMotion.matches ? 'none' : `translateY(${(1 - ingredientPosition) * rowHeight}px)`;
+  reel.style.transform = reducedMotion.matches ? 'none' : `translate3d(0,${(1 - ingredientPosition) * rowHeight}px,0)`;
   ingredientRows.forEach((row, i) => {
     const distance = Math.abs(i - ingredientPosition);
     const rowOpacity = clamp(1 - distance * .65, .18, 1);

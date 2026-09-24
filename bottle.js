@@ -71,6 +71,7 @@ export async function createBottleViewer(canvas) {
   const label = new THREE.Mesh(new THREE.CylinderGeometry(1.003,1.003,2.45,192,1,true),labelMaterial);
   label.position.y=-.39; bottle.add(label);
   let progress=0;
+  let lastRotY=null;
   const angles=[-.445*Math.PI*2,-.16*Math.PI*2,.205*Math.PI*2];
   function pose(p) {
     const segment=Math.min(1,Math.floor(p));
@@ -96,7 +97,7 @@ export async function createBottleViewer(canvas) {
     canvas.parentElement.querySelector('.bottle-fallback').hidden=false;
   });
   return {
-    setProgress(p,reduced=false){progress=reduced?0:p;pose(progress);render();canvas.dataset.rotation=bottle.rotation.y.toFixed(5);},
+    setProgress(p,reduced=false){progress=reduced?0:p;pose(progress);if(bottle.rotation.y!==lastRotY){render();lastRotY=bottle.rotation.y;}canvas.dataset.rotation=bottle.rotation.y.toFixed(5);},
     snapshot(){const previous=progress;pose(0);render();const image=canvas.toDataURL('image/png');pose(previous);render();return image;},
     info(){return {rotation:bottle.rotation.y,meshes:bottle.children.length,triangles:renderer.info.render.triangles,texture:'DNA Label.pdf'};},
   };
