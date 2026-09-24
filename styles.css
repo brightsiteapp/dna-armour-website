@@ -89,9 +89,9 @@ body:not(.science-page) .science-section .science-card:nth-child(n+4){display:no
 .nav-toggle{display:none;align-items:center;justify-content:center;border:0;background:transparent;cursor:pointer;padding:6px;z-index:35;position:relative}
 .nav-toggle-svg{display:block;overflow:visible}
 .icon-burger{transition:opacity .22s var(--ease),transform .3s var(--ease);transform-origin:12px 12px}
-.icon-dna{transition:opacity .22s var(--ease),transform .32s var(--ease);transform-origin:12px 12px;opacity:0;transform:scale(.5) rotate(-22deg)}
-.site-header[data-nav-open] .icon-burger{opacity:0;transform:scale(.5) rotate(22deg)}
-.site-header[data-nav-open] .icon-dna{opacity:1;transform:none}
+.icon-dna-img{position:absolute;inset:0;margin:auto;width:28px;height:28px;object-fit:contain;mix-blend-mode:multiply;transition:opacity .22s var(--ease),transform .32s var(--ease);opacity:0;transform:scale(.45) rotate(-22deg);pointer-events:none}
+.site-header[data-nav-open] .icon-burger{opacity:0;transform:scale(.45) rotate(22deg)}
+.site-header[data-nav-open] .icon-dna-img{opacity:1;transform:none}
 @media(max-width:760px){.nav-toggle{display:flex}.site-header[data-nav-open]{background:white!important;box-shadow:none!important;backdrop-filter:none!important}nav:not(.legal-links){position:fixed;inset:0;background:white;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:0;padding:90px 28px 48px;font-size:16px;z-index:28;opacity:0;visibility:hidden;transform:translateY(-10px);transition:opacity .28s,visibility .28s,transform .32s var(--ease);pointer-events:none}.site-header[data-nav-open] nav:not(.legal-links){opacity:1;visibility:visible;transform:none;pointer-events:auto}nav:not(.legal-links)>a:not(.nav-cta){display:flex!important;border-bottom:1px solid #e8ecee;padding:22px 0;font-size:22px;font-weight:650;width:100%;letter-spacing:-.03em}.nav-cta{margin-top:32px!important;font-size:15px!important;padding:14px 22px!important;width:fit-content!important}.shop-product-cutout{display:none}}
 @media(max-width:760px){
   /* Remove expensive GPU compositing layer from each capsule */
