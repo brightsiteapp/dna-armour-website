@@ -17,7 +17,8 @@
       <span class="brand-dna">DNA</span>
       <span class="brand-armour">ARMOUR</span>
     </a>
-    <nav aria-label="Primary navigation">
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="primary-nav"><span></span><span></span><span></span></button>
+    <nav id="primary-nav" aria-label="Primary navigation">
       <a href="/">Home</a>
       <a href="science.html">The Science</a>
       <a class="nav-cta" href="shop.html">Buy or subscribe</a>
@@ -89,7 +90,7 @@
     <section class="faq-section" aria-labelledby="faq-title">
       <div class="faq-heading reveal"><p class="eyebrow">Good to know</p><h2 id="faq-title">Frequently asked<br>questions.</h2><p>Clear answers about the formula, serving and supply.</p></div>
       <div class="faq-list reveal">
-        <details open><summary>How do I take DNA Armour NR+?<span aria-hidden="true">+</span></summary><p>Take two capsules daily with water. Do not exceed the stated recommended daily dose.</p></details>
+        <details open><summary>How do I take NR+?<span aria-hidden="true">+</span></summary><p>Take two capsules daily with water. Do not exceed the stated recommended daily dose.</p></details>
         <details><summary>How long does one bottle last?<span aria-hidden="true">+</span></summary><p>Each bottle contains 120 capsules, providing 60 daily servings at two capsules per day.</p></details>
         <details><summary>What is included in the formula?<span aria-hidden="true">+</span></summary><p>NR, Liposomal NAD, magnesium, resveratrol, Lion’s Mane, ashwagandha, turmeric, black pepper extract and vitamins B3, B6 and B12.</p></details>
         <details><summary>Is this a medicine?<span aria-hidden="true">+</span></summary><p>No. DNA Armour NR+ is a food supplement and should not replace a varied, balanced diet and healthy lifestyle.</p></details>
@@ -248,7 +249,7 @@
   </main>
 
   <footer>
-    <a class="brand footer-brand" href="#top" aria-label="Back to top"><span class="brand-dna">DNA</span><span class="brand-mark">NR+</span><span class="brand-armour">ARMOUR</span></a>
+    <a class="brand footer-brand header-wordmark" href="#top" aria-label="Back to top"><span class="brand-dna">DNA</span><span class="brand-armour">ARMOUR</span></a>
     <p>Protect your prime.</p>
     <div class="footer-meta">
       <span>© <span data-year></span> DNA Armour</span>
@@ -258,5 +259,6 @@
     <p class="footer-compliance">For adults aged 18+. Do not exceed the stated recommended daily dose. Food supplements should not be used as a substitute for a varied and balanced diet and a healthy lifestyle. Keep out of reach of young children.</p>
     <address>Distributed in the UK by Fullmart Limited, Suite 9713 Moat House Business Centre, 54 Bloomfield Avenue, Belfast, BT5 5AD, Northern Ireland.</address>
   </footer>
+  <script>!function(){var b=document.querySelector('.nav-toggle'),h=document.querySelector('.site-header');if(!b)return;b.addEventListener('click',function(){var o=h.hasAttribute('data-nav-open');h[o?'removeAttribute':'setAttribute']('data-nav-open','');b.setAttribute('aria-expanded',o?'false':'true')});document.querySelectorAll('#primary-nav a').forEach(function(a){a.addEventListener('click',function(){h.removeAttribute('data-nav-open');b.setAttribute('aria-expanded','false')})});document.addEventListener('keydown',function(e){if(e.key==='Escape'){h.removeAttribute('data-nav-open');b.setAttribute('aria-expanded','false')}})}();</script>
 </body>
 </html>

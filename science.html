@@ -7,7 +7,7 @@
 </head>
 <body class="science-page">
   <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header"><a class="brand header-wordmark" href="/" aria-label="DNA Armour home"><span class="brand-dna">DNA</span><span class="brand-armour">ARMOUR</span></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="science.html" aria-current="page">The Science</a><a class="nav-cta" href="shop.html">Buy or subscribe</a></nav></header>
+  <header class="site-header"><a class="brand header-wordmark" href="/" aria-label="DNA Armour home"><span class="brand-dna">DNA</span><span class="brand-armour">ARMOUR</span></a><button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="primary-nav"><span></span><span></span><span></span></button><nav id="primary-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="science.html" aria-current="page">The Science</a><a class="nav-cta" href="shop.html">Buy or subscribe</a></nav></header>
   <main id="main">
     <section class="science-section">
       <div class="science-heading"><p class="eyebrow">The science, clearly</p><h1>The science behind<br>the formula.</h1><p>A measured look at established nutritional roles, early human studies and emerging healthy-ageing research.</p></div>
@@ -32,4 +32,5 @@
     </section>
   </main>
   <footer class="compact-footer"><div class="footer-meta"><span>© 2026 DNA Armour</span><span>Food supplement · For adults aged 18+</span></div><nav class="legal-links" aria-label="Legal information"><a href="legal.html#privacy">Privacy</a><a href="legal.html#cookies">Cookies</a><a href="legal.html#terms">Terms</a><a href="legal.html#delivery">Delivery &amp; returns</a><a href="legal.html#contact">Contact</a></nav><p class="footer-compliance">Do not exceed the stated recommended daily dose. Food supplements should not be used as a substitute for a varied and balanced diet and a healthy lifestyle. Keep out of reach of young children.</p></footer>
+  <script>!function(){var b=document.querySelector('.nav-toggle'),h=document.querySelector('.site-header');if(!b)return;b.addEventListener('click',function(){var o=h.hasAttribute('data-nav-open');h[o?'removeAttribute':'setAttribute']('data-nav-open','');b.setAttribute('aria-expanded',o?'false':'true')});document.querySelectorAll('#primary-nav a').forEach(function(a){a.addEventListener('click',function(){h.removeAttribute('data-nav-open');b.setAttribute('aria-expanded','false')})});document.addEventListener('keydown',function(e){if(e.key==='Escape'){h.removeAttribute('data-nav-open');b.setAttribute('aria-expanded','false')}})}();</script>
 </body></html>
