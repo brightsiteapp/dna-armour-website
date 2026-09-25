@@ -92,9 +92,11 @@ export async function createBottleViewer(canvas) {
   const observer=new ResizeObserver(resize);observer.observe(canvas.parentElement);
   pose(0);resize();
   canvas.closest('.product-stage').dataset.renderer='webgl';
+  const fallback=canvas.parentElement.querySelector('.bottle-fallback');
+  if(fallback){fallback.style.transition='opacity .5s ease';fallback.style.opacity='0';setTimeout(()=>{fallback.hidden=true;},520);}
   canvas.addEventListener('webglcontextlost',(event)=>{
     event.preventDefault();canvas.hidden=true;
-    canvas.parentElement.querySelector('.bottle-fallback').hidden=false;
+    if(fallback){fallback.style.transition='none';fallback.style.opacity='1';fallback.hidden=false;}
   });
   return {
     setProgress(p,reduced=false){progress=reduced?0:p;pose(progress);if(bottle.rotation.y!==lastRotY){render();lastRotY=bottle.rotation.y;}canvas.dataset.rotation=bottle.rotation.y.toFixed(5);},

@@ -8,7 +8,7 @@ const controls = [...document.querySelectorAll('[data-view]')];
 const header = document.querySelector('[data-header]');
 const caption = document.querySelector('.view-caption');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-const captions = ['01 — The daily formula', '02 — Every ingredient', '03 — A closer look'];
+const captions = ['01 — The daily formula', '02 — Every ingredient'];
 const reel = document.querySelector('.ingredient-reel');
 const ingredientRows = [...reel.children];
 const ingredientCount = document.querySelector('[data-ingredient-count]');
@@ -46,8 +46,8 @@ function update() {
   const storyRelTop = storyAbsTop - scrollY;
   progress = clamp(-storyRelTop / storyScrollRange * 2, 0, 2);
   // The opening title hands directly to the reel on the first movement.
-  const active = progress < 1.9 ? 0 : 1;
-  const controlActive = progress < .025 ? 0 : progress < 1.9 ? 1 : 2;
+  const active = 0;
+  const controlActive = progress < .025 ? 0 : 1;
   const ingredientPosition = clamp(progress / 1.72, 0, 1) * (ingredientRows.length - 1);
   const introVisibility = clamp(1 - progress / .09, 0, 1);
   const carouselVisibility = clamp(progress / .09, 0, 1);
@@ -99,7 +99,7 @@ addEventListener('resize', () => {
 });
 reducedMotion.addEventListener('change', requestUpdate);
 controls.forEach((button) => button.addEventListener('click', () => {
-  const fraction = Number(button.dataset.view) / 2;
+  const fraction = Number(button.dataset.view) / 1;
   scrollTo({ top: story.offsetTop + (story.offsetHeight - stage.offsetHeight) * fraction,
     behavior: reducedMotion.matches ? 'instant' : 'smooth' });
 }));
