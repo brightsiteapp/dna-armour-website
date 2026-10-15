@@ -41,6 +41,7 @@ const marqueeAnimation = marqueeTrack && !reducedMotion.matches ? marqueeTrack.a
   { duration: 42000, iterations: Infinity, easing: 'linear' }
 ) : null;
 
+const REEL_END = 1.72;
 function update() {
   raf = null;
   const storyRelTop = storyAbsTop - scrollY;
@@ -48,7 +49,9 @@ function update() {
   // The opening title hands directly to the reel on the first movement.
   const active = 0;
   const controlActive = progress < .025 ? 0 : 1;
-  const ingredientPosition = clamp(progress / 1.72, 0, 1) * (ingredientRows.length - 1);
+  // The bottle's 360 turn and the ingredient reel share one end point so both settle together.
+  const reelProgress = clamp(progress / REEL_END, 0, 1);
+  const ingredientPosition = reelProgress * (ingredientRows.length - 1);
   const introVisibility = clamp(1 - progress / .09, 0, 1);
   const carouselVisibility = clamp(progress / .09, 0, 1);
   stage.style.setProperty('--intro-visibility', String(introVisibility));
@@ -72,7 +75,7 @@ function update() {
   const descent = reducedMotion.matches ? 0 : progress * (mobile ? 9 : 26);
   view.style.transform = `translateY(${descent}px)`;
   stage.dataset.progress = progress.toFixed(3);
-  viewer?.setProgress(progress, reducedMotion.matches);
+  viewer?.setProgress(reelProgress * 2, reducedMotion.matches);
   header.classList.toggle('is-scrolled', scrollY > 24);
   header.classList.toggle('on-story', storyRelTop + storyOffsetHeight > 88);
   if (formulaShowcase) {
