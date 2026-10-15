@@ -1,5 +1,8 @@
 import { createBottleViewer } from './bottle.js';
 
+// Always open on the first ingredient rather than restoring a mid-carousel scroll position.
+if (!location.hash) { history.scrollRestoration = 'manual'; scrollTo(0, 0); }
+
 const story = document.querySelector('.story');
 const stage = document.querySelector('.product-stage');
 const view = document.querySelector('.product-view');
