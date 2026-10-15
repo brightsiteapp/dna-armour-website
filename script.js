@@ -41,7 +41,6 @@ const marqueeAnimation = marqueeTrack && !reducedMotion.matches ? marqueeTrack.a
   { duration: 42000, iterations: Infinity, easing: 'linear' }
 ) : null;
 
-const REEL_END = 1.72;
 function update() {
   raf = null;
   const storyRelTop = storyAbsTop - scrollY;
@@ -49,8 +48,9 @@ function update() {
   // The opening title hands directly to the reel on the first movement.
   const active = 0;
   const controlActive = progress < .025 ? 0 : 1;
-  // The bottle's 360 turn and the ingredient reel share one end point so both settle together.
-  const reelProgress = clamp(progress / REEL_END, 0, 1);
+  // The bottle turn, ingredient reel and bottle descent all end exactly as the stage unpins,
+  // so the page hands straight over to normal scrolling.
+  const reelProgress = progress / 2;
   const ingredientPosition = reelProgress * (ingredientRows.length - 1);
   const introVisibility = clamp(1 - progress / .09, 0, 1);
   const carouselVisibility = clamp(progress / .09, 0, 1);
