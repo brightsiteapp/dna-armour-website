@@ -1,5 +1,4 @@
-const note = document.querySelector('.purchase-note');
+const AMAZON_URL = 'https://www.amazon.co.uk/dp/B0HN895J7C';
 document.querySelector('.purchase-action').addEventListener('click', () => {
-  const choice = document.querySelector('input[name="purchase"]:checked').value;
-  note.textContent = `${choice === 'subscribe' ? 'Subscription' : 'One-off purchase'} selected. Add the final price and payment provider to activate checkout.`;
+  window.open(AMAZON_URL, '_blank', 'noopener');
 });
