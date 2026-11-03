@@ -127,8 +127,8 @@ body:not(.science-page) .science-section .science-card:nth-child(n+4){display:no
 
 @media (max-width:760px){
   /* Keep the product image inside its own grid row on small screens. */
-  .formula-product{height:clamp(300px,90vw,430px);overflow:hidden}
-  .formula-product img{width:100%;height:100%;transform:none;will-change:auto}
+  .formula-product{height:clamp(300px,90vw,430px);overflow:visible}
+  .formula-product img{width:78%;height:90%;object-fit:contain;transform:none;will-change:auto}
   .formula-points,.formula-points-right{min-width:0;gap:24px 18px}
   .formula-points article{min-width:0;overflow-wrap:anywhere}
   .science-product-intro{min-height:0;overflow:visible}
