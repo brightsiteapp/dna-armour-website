@@ -2,8 +2,9 @@ import * as THREE from './assets/vendor/three.module.js';
 
 // Real revolved geometry. Proportions follow the reference, not manufacturing dimensions.
 export async function createBottleViewer(canvas) {
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'low-power' });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  const mobile = matchMedia('(max-width: 760px)').matches;
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !mobile, alpha: true, powerPreference: 'low-power' });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1 : 1.5));
   renderer.setClearColor(0x000000, 0);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -29,30 +30,30 @@ export async function createBottleViewer(canvas) {
   const groove = new THREE.MeshStandardMaterial({ color: 0xcbd0ce, roughness: .55 });
   function lathe(points, material) {
     const curve = new THREE.SplineCurve(points.map(([r, y]) => new THREE.Vector2(r, y)));
-    const mesh = new THREE.Mesh(new THREE.LatheGeometry(curve.getPoints(points.length * 5), 160), material);
+    const mesh = new THREE.Mesh(new THREE.LatheGeometry(curve.getPoints(points.length * 4), mobile ? 64 : 96), material);
     bottle.add(mesh); return mesh;
   }
   lathe([[0,-2.16],[.55,-2.16],[.84,-2.14],[.96,-2.08],[1,-1.97],[1,-1.78],
     [1,-1.4],[1,-.5],[1,.4],[1,.85],[.99,1.02],[.94,1.2],[.83,1.36],
     [.75,1.43],[.73,1.53],[.73,1.65],[.7,1.7],[0,1.7]], plastic);
   function cylinder(radius, height, y, material) {
-    const mesh = new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,height,128),material);
+    const mesh = new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,height,mobile ? 48 : 96),material);
     mesh.position.y=y; bottle.add(mesh); return mesh;
   }
   cylinder(.755,.08,1.56,groove);
   cylinder(.8,.075,1.65,capPlastic);
   lathe([[0,1.72],[.74,1.72],[.8,1.74],[.817,1.79],[.817,2.31],[.805,2.37],[.77,2.4],[.55,2.41],[0,2.41]],capPlastic);
-  const ribs = new THREE.InstancedMesh(new THREE.CylinderGeometry(.0085,.0085,.54,6),capPlastic,144);
+  const ribs = new THREE.InstancedMesh(new THREE.CylinderGeometry(.0085,.0085,.54,6),capPlastic,mobile ? 72 : 144);
   const matrix = new THREE.Matrix4();
-  for(let i=0;i<144;i++) {
-    const theta=i/144*Math.PI*2;
+  for(let i=0;i<ribs.count;i++) {
+    const theta=i/ribs.count*Math.PI*2;
     matrix.makeTranslation(Math.sin(theta)*.82,2.055,Math.cos(theta)*.82);
     ribs.setMatrixAt(i,matrix);
   }
   bottle.add(ribs);
   const texture = await new THREE.TextureLoader().loadAsync('./assets/dna-label-texture.png');
   texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(),8);
+  texture.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(),mobile ? 2 : 4);
   // Preserve the artwork's cyan while shading the cylindrical edges. Filmic tone
   // mapping used for the white plastic otherwise washes out the printed blue.
   const labelMaterial = new THREE.ShaderMaterial({
@@ -68,7 +69,7 @@ export async function createBottleViewer(canvas) {
       }`,
     toneMapped: false,
   });
-  const label = new THREE.Mesh(new THREE.CylinderGeometry(1.003,1.003,2.45,192,1,true),labelMaterial);
+  const label = new THREE.Mesh(new THREE.CylinderGeometry(1.003,1.003,2.45,mobile ? 64 : 128,1,true),labelMaterial);
   label.position.y=-.39; bottle.add(label);
   let progress=0;
   let lastRotY=null;

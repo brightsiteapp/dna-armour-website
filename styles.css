@@ -104,3 +104,33 @@ body:not(.science-page) .science-section .science-card:nth-child(n+4){display:no
   /* Disable JS-driven capsule shift on mobile — unnecessary work each frame */
   .hero-capsules i{transform:rotate(var(--r))!important}
 }
+
+/* Keep the mobile product and copy in separate, predictable regions. */
+@media (max-width:760px){
+  .product-stage{min-height:0}
+  .product-view{top:9%;height:34%}
+  .story-copy{top:46%;bottom:48px;left:5%;right:5%}
+  .formula-journey-card>.eyebrow{top:0}
+  .ingredient-roller{--row-height:clamp(58px,8.5svh,72px)}
+  .formula-journey-card .hero-support{top:calc(var(--row-height, 64px) * 2 + 8px)}
+  .formula-journey-card{--row-height:clamp(58px,8.5svh,72px)}
+  .story .formula-journey-card h1{white-space:normal;font-size:clamp(27px,8vw,36px);line-height:1.02}
+  .hero-capsules i,.hero-foreground-capsule{animation:none;filter:none!important}
+}
+@media (max-width:760px) and (max-height:700px){
+  .product-view{top:10%;height:30%}
+  .story-copy{top:42%}
+  .formula-journey-card{--row-height:55px}
+  .ingredient-roller{--row-height:55px}
+  .formula-summary{line-height:1.35}
+}
+
+@media (max-width:760px){
+  /* Keep the product image inside its own grid row on small screens. */
+  .formula-product{height:clamp(300px,90vw,430px);overflow:hidden}
+  .formula-product img{width:100%;height:100%;transform:none;will-change:auto}
+  .formula-points,.formula-points-right{min-width:0;gap:24px 18px}
+  .formula-points article{min-width:0;overflow-wrap:anywhere}
+  .science-product-intro{min-height:0;overflow:visible}
+  .nav-toggle{flex:0 0 24px;width:24px;height:24px}
+}
