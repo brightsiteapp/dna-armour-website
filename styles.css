@@ -134,3 +134,10 @@ body:not(.science-page) .science-section .science-card:nth-child(n+4){display:no
   .science-product-intro{min-height:0;overflow:visible}
   .nav-toggle{flex:0 0 24px;width:24px;height:24px}
 }
+
+/* The formula photo stays at its displayed size while scrolling. */
+.formula-showcase .formula-product img{width:72%;height:80%;max-height:480px;object-fit:contain;transform:none;will-change:auto}
+@media(max-width:760px){
+  .formula-showcase .formula-product{height:300px;min-height:0;margin-bottom:24px}
+  .formula-showcase .formula-product img{width:65%;height:260px;max-height:260px;max-width:220px;object-fit:contain}
+}
